@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bienvenido a estacionamiento rompePepe</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="./CSS/EstiloLogin.css">
+    <script type="text/javascript" src="./JS/MisFunciones.js"></script>
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+    <script>window.onload = localStorage.clear()</script>
+</head>
+<body>
+        <div class="container">
+                <div class="row vertical-offset-100">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h3 class="panel-title">Ingrese sus datos</h3>
+                             </div>
+                              <div class="panel-body">
+
+                                <form accept-charset="UTF-8" role="form" method="POST" onsubmit="login(); return false;">
+                                <fieldset>
+                                      <div class="form-group">
+                                        <input class="form-control" placeholder="Correo electronico" name="email" type="text" id="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Clave" name="clave" type="password" value="" id="clave">
+                                    </div><br>
+                                    <input class="btn btn-lg btn-success btn-block" type="submit" value="Ingresar" >
+                                    <button style="margin-top: 5px;" type="button" class="btn btn-primary btn-md" onclick="completarUser()">Test Usuario</button>
+                                    <button style="margin-top: 5px;float:right;" type="button" class="btn btn-primary btn-md" onclick="completarAdmin()">Test Admin</button>
+                                </fieldset>
+                                  </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</body>
+</html>
