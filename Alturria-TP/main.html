@@ -12,9 +12,9 @@
   <!-- ARCHIVOS PROPIOS -->
   <link type="text/css" rel="stylesheet" href="./CSS/EstiloGeneral.css">
   <script type="text/javascript" src="./JS/MisFunciones.js"></script>
+  <script>window.onload = cargarDatos()</script>
   <script>window.onload = cargarGrilla()</script>
   <script>window.onload = cocherasLibres()</script>
-  <script>window.onchange = patentesSalida()</script>
 </head>
 <body>
 
@@ -24,15 +24,22 @@
       <a class="navbar-brand" href="#">Estacionamiento</a>
     </div>
     <ul class="nav navbar-nav">
-        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestionar Empleados<span class="caret"></span></a>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Administracion<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a onclick="MostrarSoloDBA();">Empleados</a></li>
-            <li><a id="MostrarProgramadores">% de programadores</a></li>
+            <li><a data-toggle="modal" data-target="#modalAgregarEmpleado">Alta Empleado</a></li>
+            <li><a data-toggle="modal" data-target="#modalBajaEmpleado">Baja Empleado</a></li>
             <li><a href="#">Solo los emails</a></li>
           </ul>
         </li>
         <li><a data-toggle="modal" data-target="#modalIngreso">Ingresar Auto</a></li>
         <li><a data-toggle="modal" data-target="#modalSalida">Sacar Auto</a></li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Exportar Datos<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a data-toggle="modal" data-target="#modalExportEmpleado">Empleados</a></li>
+            <li><a id="MostrarProgramadores">% de programadores</a></li>
+            <li><a href="#">Solo los emails</a></li>
+          </ul>
+        </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="./index.html"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
@@ -41,51 +48,15 @@
 </nav>
   
 <div class="container col-md-3">
-<h2>Alta</h2>
-Lorem ipsum dolor sit amet, consectetur adipsicing elite...<br>
+<h2 id="headerHola"></h2>
 <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Ingrese sus datos</h3>
-   </div>
-    <div class="panel-body">
-
-      <form accept-charset="UTF-8" role="form" method="POST" onsubmit="alta();">
-      <fieldset>
-            <div class="form-group">
-                Nombre:
-              <input class="form-control" name="nombre" type="text" id="nombre">
-          </div>
-          <div class="form-group">
-                Apellido:
-              <input class="form-control" name="apellido" type="text" id="apellido">
-          </div>
-          <div class="form-group">
-                Email:
-              <input class="form-control" name="email" type="text" id="email">
-          </div>
-          <div class="form-group">
-                Profesion:<br>
-
-                <select class="form-control" id="profesion">
-                        <option>programador</option>
-                        <option>DBA</option>
-                        <option>diseñadores</option>
-                      </select>
-
-          </div>
-<br>
-          <button  type="button" class="btn  btn-success" id="alta">
-          <span class="glyphicon glyphicon-floppy-disk"></span>  
-          Enter</button>
-
-          <button type="button" class="btn btn-danger" onclick="completarUser()">
-                <span class="glyphicon glyphicon-remove"></span>  
-            Cancel</button>
-
-        </fieldset>
-        </form>
-
-  </div>
+  <input type="image" id="imagen"><br>
+  <h3>precios:</h3>
+  <h3> 
+          Hora: 10<br>
+          Media Estadia: 90<br>
+          Estadia: 170
+    </h3>
 </div>
 </div>
 <div class="container2 col-md-9">
@@ -106,11 +77,11 @@ Lorem ipsum dolor sit amet, consectetur adipsicing elite...<br>
             <div class="modal-body" style="padding:40px 50px;">
               <!--5- Cuando ingresa el vehículo se le toma la patente, color y marca. -->
               <div class="form-group">
-                      Patente: <input type="text" id="patente" class="form-control" placeholder="formato de patente: AAA 666" title="formato de patente: AAA 666"  required pattern="[a-z]{3}[0-9]{3}" />
-                      <br>Marca<select class="form-control" id="marca"><option>Fiat</option><option>Ford</option><option>Chevrolet</option><option>Toyota</option><option>Dodge</option><option>Audi</option><option>Volkswagen</option><option>Otro</option></select>
-                      <br>Color<select class="form-control" id="color"><option>Rojo</option><option>Negro</option><option>Gris</option><option>Blanco</option><option>Azul</option><option>Verde</option><option>Otro</option></select>
-                      <br>Cochera<select class="form-control" id="cochera" value=""></select>
-              </div>
+                  Patente: <input type="text" id="patente" class="form-control" placeholder="formato de patente: AAA 666" title="formato de patente: AAA 666"  required pattern="[a-z]{3}[0-9]{3}" />
+                  <br>Marca<select class="form-control" id="marca"><option>Fiat</option><option>Ford</option><option>Chevrolet</option><option>Toyota</option><option>Dodge</option><option>Audi</option><option>Volkswagen</option><option>Otro</option></select>
+                  <br>Color<select class="form-control" id="color"><option>Rojo</option><option>Negro</option><option>Gris</option><option>Blanco</option><option>Azul</option><option>Verde</option><option>Otro</option></select>
+                  <br>Cochera<select class="form-control" id="cochera" value=""></select>
+          </div>
             
               <div class="modal-footer">
                   <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
@@ -123,11 +94,36 @@ Lorem ipsum dolor sit amet, consectetur adipsicing elite...<br>
         </div>
       </div>  
     </div>
-  <div class="modal fade" id="modalSalida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalSalida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel2">Salida del vehiculo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+  
+          <div class="modal-body" style="padding:40px 50px;">
+            <!--5- Cuando ingresa el vehículo se le toma la patente, color y marca. -->
+            <div class="form-group" id="form-group">
+                
+            </div>
+            <input type="hidden" id="patenteSalidaOculto" value="">
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="confirmarSacar" onclick="confirmarSalidaVehiculo()" ><span class="glyphicon glyphicon-road"></span>Calcular salida</button>
+                <button type="submit" class="btn btn-success" id="sacar" onclick="sacarVehiculo()" data-dismiss="modal"><span class="glyphicon glyphicon-road"></span>Sacar</button>
+            </div>
+        </div>
+      </div>
+    </div>  
+  </div> 
+  <div class="modal fade" id="modalExportEmpleado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Salida del vehiculo</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Ingreso del vehiculo</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -136,18 +132,82 @@ Lorem ipsum dolor sit amet, consectetur adipsicing elite...<br>
         <div class="modal-body" style="padding:40px 50px;">
           <!--5- Cuando ingresa el vehículo se le toma la patente, color y marca. -->
           <div class="form-group">
-              <br>Patente<select class="form-control" id="patenteSalida" value=""></select>
-          </div>
+              
+              Extension: <select class="form-control" id="extension"><option>Texto</option><option>Excel</option><option>PDF</option></select>
+              
+      </div>
         
           <div class="modal-footer">
               <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
-              <button type="submit" class="btn  btn-success" id="sacar" onclick="sacarVehiculo()" data-dismiss="modal">
+            
+              <button type="submit" class="btn  btn-success" id="exportar" onclick="exportar()" data-dismiss="modal">
               <span class="glyphicon glyphicon-road"></span>  
-              Sacar</button>
+              Exportar</button>
           </div>
       </div>
     </div>
-  </div>    
+  </div>  
+</div>
+<div class="modal fade" id="modalAgregarEmpleado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ingreso del vehiculo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
+      <div class="modal-body" style="padding:40px 50px;">
+        <!--5- Cuando ingresa el vehículo se le toma la patente, color y marca. -->
+        <div class="form-group">
+            Nombre: <input type="text" id="nombreAlta" class="form-control" placeholder="Nombre"/>
+            <br>Apellido: <input type="text" id="apellidoAlta" class="form-control" placeholder="Apellido"/>
+            <br>DNI: <input type="text" id="dniAlta" class="form-control" placeholder="DNI"/>
+            <br>Usuario: <input type="text" id="usuarioAlta" class="form-control" placeholder="Usuario"/>
+            <br>Clave: <input type="password" id="claveAlta" class="form-control" placeholder="Clave" />
+            <br>Es admin: <input type="checkbox" id="esAdminAlta"/>
+            <br>Foto: <input required type="file" class="form-control" id="idFoto" name="foto">
+    </div>
+      
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+          
+            <button type="submit" class="btn  btn-success" id="altaEmpleado" onclick="altaEmpleado()" data-dismiss="modal">
+            <span class="glyphicon glyphicon-road"></span>  
+            Ingresar</button>
+        </div>
+    </div>
+  </div>
+</div>  
+
+<div class="modal fade" id="modalBajaEmpleado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ingreso del vehiculo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding:40px 50px;">
+        <div class="form-group">
+
+      Usuario: <input type="text" id="usuarioBaja" class="form-control" placeholder="Usuario para dar de baja"/>
+
+    </div>
+      
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+          
+            <button type="submit" class="btn  btn-success" id="bajaEmpleado" onclick="bajaEmpleado()" data-dismiss="modal">
+            <span class="glyphicon glyphicon-road"></span>  
+            Ingresar</button>
+        </div>
+    </div>
+  </div>
+</div>  
+  
 </body>
 </html>

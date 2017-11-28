@@ -2,6 +2,8 @@
 date_default_timezone_set("America/Buenos_Aires");
 require_once 'AccesoDatos.php';
 class operacion{
+    public static $costo;
+    public static $salidaStr;
 	public static function Existe($patente){
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
         $consulta = $objetoAccesoDato->RetornarConsulta("select 1 from operaciones where patente=:patente and salida is null");	
@@ -53,30 +55,24 @@ class operacion{
         $costo;
         if($horas<12){
             $costo = $horas * 10;
-        }elseif ($horas>25) {
-            $costo = $horas * 170;
+        }elseif ($horas>=24) {
+            $costo = $horas/24 * 170;
         }else {
-            $costo = $horas * 90;
+            $costo = $horas/12 * 90;
         }
         return $costo;
     }
 
     public static function terminarOperacion($patente,$datosToken){
- 
-        $salidaStr = date("Y-m-d H:i:s");
-        $salida = new DateTime($salidaStr); 
-        $datos = operacion::obtenerEntrada($patente);
-        $entrada = new DateTime($datos[0]['entrada']);
-
-        $diff = $salida->diff($entrada);
-        $segundos = ( ($diff->days * 24 ) * 60 ) + ( $diff->i * 60 ) + $diff->s;
-        $costo = round(operacion::obtenerCosto($segundos),2);
-
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $datos = operacion::obtenerEntrada($patente);
         $consulta =$objetoAccesoDato->RetornarConsulta("update operaciones set salida = :salida, costo = :costo where patente=:patente and salida is null");
-        $consulta->bindValue(':salida',$salidaStr, PDO::PARAM_STR);	
-        $consulta->bindValue(':costo',$costo, PDO::PARAM_STR);	
+        $consulta->bindValue(':salida',operacion::$salidaStr, PDO::PARAM_STR);	
+        $consulta->bindValue(':costo',operacion::$costo, PDO::PARAM_STR);	
         $consulta->bindValue(':patente',$patente, PDO::PARAM_STR);	
+        echo "datos";
+        echo operacion::$costo;
+        echo operacion::$salidaStr;die();
         $consulta->execute();
 
         operacion::actualizarCochera($datos[0]['idCochera']);
@@ -91,4 +87,30 @@ class operacion{
 
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
+
+
+    public static function confirmarSalidaVehiculo($patente,$datosToken){
+        $salidaStr = date("Y-m-d H:i:s");
+        $salida = new DateTime($salidaStr); 
+        $datos = operacion::obtenerEntrada($patente);
+        $entrada = new DateTime($datos[0]['entrada']);
+
+        $diff = $salida->diff($entrada);
+        $segundos = ( ($diff->days * 24 ) * 60 *60) +( $diff->h *60 * 60 )+ ( $diff->i * 60 ) + $diff->s;
+        $costo = round(operacion::obtenerCosto($segundos),2);
+        $horas = round(($segundos / 60 / 60),2);
+ 
+		$objetoAccesoDatos = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta = $objetoAccesoDatos->RetornarConsulta("SELECT marca,color,entrada from operaciones, vehiculos where salida is null and operaciones.patente= :patente and vehiculos.patente=operaciones.patente");
+        $consulta->bindValue(':patente',$patente, PDO::PARAM_STR);	
+        $consulta->execute();
+        $retorno = $consulta->fetchAll();
+        array_push($retorno,$horas);
+        operacion::$costo=$costo;
+        array_push($retorno,$costo);
+        operacion::$salidaStr=$salidaStr;
+        array_push($retorno,$salidaStr);
+        //var_dump($retorno);die();
+        return $retorno;
+	}
 }

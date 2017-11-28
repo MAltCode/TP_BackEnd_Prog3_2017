@@ -8,7 +8,7 @@ class logueo{
     $token="";
     $ArrayDeParametros = $request->getParsedBody();
    // return $ArrayDeParametros;
-    $usuario = $ArrayDeParametros['email'];
+    $usuario = $ArrayDeParametros['usuario'];
     $clave = $ArrayDeParametros['clave'];
   
 
@@ -22,7 +22,8 @@ class logueo{
             'apellido'=> $usuario->apellido,
             'perfil'=> $usuario->perfil,
             'id'=> $usuario->id,
-            'email'=> $usuario->email));
+            'foto'=> $usuario->foto,
+            'usuario'=> $usuario->usuario));
           $newResponse = $response->withJson( $token ,200); 
         }
         else{

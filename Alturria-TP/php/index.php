@@ -18,12 +18,17 @@ $app->group('/login', function () {
 
 $app->group('/administracion', function () {
     $this->get('/cocherasLibres', \administracion::class . ':cocherasLibres');
-
-    $this->post('/cocherasOcupadas', \administracion::class . ':cocherasOcupadas');
-    $this->post('/patentesSalida', \administracion::class . ':patentesSalida');
-    
     $this->post('/ingresarVehiculo', \operacionApi::class . ':ingresarVehiculo');
+    $this->post('/cocherasOcupadas', \administracion::class . ':cocherasOcupadas');
+    $this->post('/altaEmpleado', \administracion::class . ':altaEmpleado');
+    $this->post('/bajaEmpleado', \administracion::class . ':bajaEmpleado');
+    $this->post('/patentesSalida', \administracion::class . ':patentesSalida');
+    $this->post('/confirmarSalidaVehiculo', \operacionApi::class . ':confirmarSalidaVehiculo');
     $this->post('/sacarVehiculo', \operacionApi::class . ':sacarVehiculo');
+    
+    $this->post('/datosToken', \administracion::class . ':datosToken');
+    
+    
     
 });
 

@@ -49,6 +49,21 @@ class operacionApi extends operacion{
         return $newResponse;
     }
     
+    public static function confirmarSalidaVehiculo($request, $response){
+        $ArrayDeParametros = $request->getParsedBody();
+        $token = $ArrayDeParametros['token'];
+        $patente = $ArrayDeParametros['patente'];
+        try{
+            $datosToken = autentificadorJwt::decodificarToken($token);
+        }
+        catch(Exception $e){
+            return $response->withJson($e->getMessage(), 511);
+        }
 
+        $retorno = operacion::confirmarSalidaVehiculo($patente,$datosToken);
+        $newResponse = $response->withJson( $retorno ,200); 
+
+        return $newResponse;
+    }
 	
 }
