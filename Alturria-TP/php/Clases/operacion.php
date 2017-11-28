@@ -2,8 +2,6 @@
 date_default_timezone_set("America/Buenos_Aires");
 require_once 'AccesoDatos.php';
 class operacion{
-    public static $costo;
-    public static $salidaStr;
 	public static function Existe($patente){
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
         $consulta = $objetoAccesoDato->RetornarConsulta("select 1 from operaciones where patente=:patente and salida is null");	
@@ -63,16 +61,13 @@ class operacion{
         return $costo;
     }
 
-    public static function terminarOperacion($patente,$datosToken){
+    public static function terminarOperacion($patente,$costo,$fecha){
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
         $datos = operacion::obtenerEntrada($patente);
         $consulta =$objetoAccesoDato->RetornarConsulta("update operaciones set salida = :salida, costo = :costo where patente=:patente and salida is null");
-        $consulta->bindValue(':salida',operacion::$salidaStr, PDO::PARAM_STR);	
-        $consulta->bindValue(':costo',operacion::$costo, PDO::PARAM_STR);	
+        $consulta->bindValue(':salida',$fecha, PDO::PARAM_STR);	
+        $consulta->bindValue(':costo',$costo, PDO::PARAM_STR);	
         $consulta->bindValue(':patente',$patente, PDO::PARAM_STR);	
-        echo "datos";
-        echo operacion::$costo;
-        echo operacion::$salidaStr;die();
         $consulta->execute();
 
         operacion::actualizarCochera($datos[0]['idCochera']);
@@ -106,9 +101,7 @@ class operacion{
         $consulta->execute();
         $retorno = $consulta->fetchAll();
         array_push($retorno,$horas);
-        operacion::$costo=$costo;
         array_push($retorno,$costo);
-        operacion::$salidaStr=$salidaStr;
         array_push($retorno,$salidaStr);
         //var_dump($retorno);die();
         return $retorno;

@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+  <title>Estacionamiento rompePepe</title>
   <!-- ARCHIVOS PROPIOS -->
   <link type="text/css" rel="stylesheet" href="./CSS/EstiloGeneral.css">
   <script type="text/javascript" src="./JS/MisFunciones.js"></script>
@@ -62,7 +61,7 @@
 <div class="container2 col-md-9">
     <h2>Estado del estacionamiento</h2><br><br>
     <table class="table table-bordered" id="tabla"></table>
-    </div>
+</div>
 
     <div class="modal fade" id="modalIngreso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -110,6 +109,9 @@
                 
             </div>
             <input type="hidden" id="patenteSalidaOculto" value="">
+            <input type="hidden" id="costoSalidaOculto" value="">
+            <input type="hidden" id="fechaSalidaOculto" value="">
+
             <div class="modal-footer">
                 <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                 <button type="submit" class="btn btn-primary" id="confirmarSacar" onclick="confirmarSalidaVehiculo()" ><span class="glyphicon glyphicon-road"></span>Calcular salida</button>
@@ -180,7 +182,7 @@
     </div>
   </div>
 </div>  
-
+</div>  
 <div class="modal fade" id="modalBajaEmpleado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -194,20 +196,20 @@
       <div class="modal-body" style="padding:40px 50px;">
         <div class="form-group">
 
-      Usuario: <input type="text" id="usuarioBaja" class="form-control" placeholder="Usuario para dar de baja"/>
+      Usuario: <input type="text" id="usuarioBaja" class="form-control" placeholder="Ingrese el DNI del usuario a BORRAR (Es irreversible)"/>
 
     </div>
       
         <div class="modal-footer">
-            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+            <button type="submit" class="btn btn-primary btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
           
-            <button type="submit" class="btn  btn-success" id="bajaEmpleado" onclick="bajaEmpleado()" data-dismiss="modal">
-            <span class="glyphicon glyphicon-road"></span>  
-            Ingresar</button>
+            <button type="submit" class="btn  btn-danger" id="bajaEmpleado" onclick="bajaEmpleado()" data-dismiss="modal">
+            <span class="glyphicon glyphicon-print"></span>  
+            BORRAR</button>
         </div>
     </div>
   </div>
 </div>  
-  
+</div>  
 </body>
 </html>

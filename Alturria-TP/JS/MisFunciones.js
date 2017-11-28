@@ -35,35 +35,47 @@ function login(){
 function ingresarVehiculo(){
     var marca = $("#marca").val();
     var patente = $("#patente").val();
+    patente = patente.toUpperCase();
     var color = $("#color").val();
     var cochera = $("#cochera").val();
     
     var token = localStorage.getItem('tokenUTNFRA');
 
-    if(marca != '' && patente != '' && color != '' && cochera != '' ){
-        var dataPost = { marca:marca,patente:patente,color:color,cochera:cochera,token:token};
-        var funcionAjax=$.ajax({
-            type:"POST",
-            data: dataPost,
-            dataType: 'json',
-            url:servidor+"/administracion/ingresarVehiculo"
-            }).then(function(retorno){
-                console.log("volvio de  ingresar Vehiculo" + retorno.responseText);
-                cocherasLibres();
-                cargarGrilla();
-            },function(error){
-                alert("error al ingresar vehiculo: "+ error.responseText);
-            });
+    if(patenteValida(patente)){
+        if(marca != '' && patente != '' && color != '' && cochera != '' ){
+            var dataPost = { marca:marca,patente:patente,color:color,cochera:cochera,token:token};
+            var funcionAjax=$.ajax({
+                type:"POST",
+                data: dataPost,
+                dataType: 'json',
+                url:servidor+"/administracion/ingresarVehiculo"
+                }).then(function(retorno){
+                    console.log("volvio de  ingresar Vehiculo" + retorno.responseText);
+                    cocherasLibres();
+                    cargarGrilla();
+                    alert("Se ingreso el vehiculo.");
+                },function(error){
+                    alert("error al ingresar vehiculo: "+ error.responseText);
+                });
+        }else{
+            alert("Debe ingresar todos los datos.");
+        }
+
+    }else{
+        alert("La patente ingresada no es valida.");
     }
 }
 
 function sacarVehiculo(){
     var patente = $("#patenteSalidaOculto").val();
+    var costo = $("#costoSalidaOculto").val();
+    var fecha = $("#fechaSalidaOculto").val();
+
     console.log("sacando a patenteSalidaOculto "+patente);
     var token = localStorage.getItem('tokenUTNFRA');
 
     if(patente != ''){
-        var dataPost = { patente:patente,token:token};
+        var dataPost = { patente:patente,token:token,costo:costo, fecha:fecha};
         var funcionAjax=$.ajax({
             type:"POST",
             data: dataPost,
@@ -75,6 +87,7 @@ function sacarVehiculo(){
                 cargarGrilla();
             },function(error){
                 alert("error al ingresar vehiculo: "+ error.responseText);
+                console.log(error);
             });
     }
 }
@@ -173,6 +186,8 @@ function confirmarSalidaVehiculo(){
                 $("#sacar").show();
                 $("#confirmarSacar").hide();
                 $('#patenteSalidaOculto').val(patente);
+                $('#costoSalidaOculto').val(retorno[2]);
+                $('#fechaSalidaOculto').val(retorno[3]);
                 $('#form-group').html("<h5 id='patenteSalida' value='"+patente+"'><br>Patente: " +patente+"</h5>");
                 $('#form-group').append("<br>Marca : "+retorno[0]['marca']);
                 $('#form-group').append("<br>Color : "+retorno[0]['color']);
@@ -284,4 +299,21 @@ function bajaEmpleado(){
           });
     }
 
+}
+
+function patenteValida(patente){
+    if(patente.length!=6){
+        return false;
+    }else{
+        //    var res = str[0].match("^[a-zA-Z\(\)]+$");
+        //    var asd = $.isNumeric(str[0]);
+            if(patente[0].match("^[a-zA-Z\(\)]+$") && patente[1].match("^[a-zA-Z\(\)]+$") && patente[2].match("^[a-zA-Z\(\)]+$")
+            && $.isNumeric(patente[3]) && $.isNumeric(patente[4]) && $.isNumeric(patente[5])){
+                return true;
+            }
+            else{
+                return false;
+            }
+
+        }
 }

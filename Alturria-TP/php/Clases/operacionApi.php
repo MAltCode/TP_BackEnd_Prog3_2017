@@ -35,6 +35,9 @@ class operacionApi extends operacion{
         $ArrayDeParametros = $request->getParsedBody();
         $token = $ArrayDeParametros['token'];
         $patente = $ArrayDeParametros['patente'];
+        $costo = $ArrayDeParametros['costo'];
+        $fecha = $ArrayDeParametros['fecha'];
+
         try{
             $datosToken = autentificadorJwt::decodificarToken($token);
         }
@@ -42,7 +45,7 @@ class operacionApi extends operacion{
             return $response->withJson($e->getMessage(), 511);
         }
 
-        operacion::terminarOperacion($patente,$datosToken);
+        operacion::terminarOperacion($patente,$costo,$fecha);
         $retorno=array('ok'=> "Se guardo correctamente!" );
         $newResponse = $response->withJson( $retorno ,200); 
 
