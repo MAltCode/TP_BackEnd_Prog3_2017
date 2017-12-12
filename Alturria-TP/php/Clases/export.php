@@ -2,8 +2,7 @@
 require_once 'AccesoDatos.php';
 require_once 'PHPExcel.php';
 class export{
-
-	public static function cocheras($request, $response){
+	public static function cocherasExcel($request, $response){
 		$objetoAccesoDatos = AccesoDatos::dameUnObjetoAcceso(); 
         $consulta = $objetoAccesoDatos->RetornarConsulta("select * from cocheras;");
         $consulta->execute();
@@ -25,11 +24,13 @@ class export{
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $subrow['tipo']);
         }
         $excelWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        $fecha = date("Y-m-d H:i:s"); 
-        $nombre = "Cocheras ".$fecha;
-        $excelWriter->save('../export/'.$nombre.'.xlsx');
+        $fecha = date("Y-m-d H_i_s"); 
+        $nombre = "Cocheras ".$fecha.'.xlsx';
+        $excelWriter->save('pepe.xlsx');
 
-        var_dump($excelWriter);
+
+        rename("pepe.xlsx", "../export/".$nombre);
+        $excelWriter->save('php://output'); 
     }
 }
 ?>

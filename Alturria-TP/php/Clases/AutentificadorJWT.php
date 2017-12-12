@@ -11,7 +11,7 @@ class autentificadorJWT{
             'iat' => $time,
             'exp' => $time + 120*60,
             'data' => $datos,
-            'app' => "apirestjwt"
+            'app' => "estacionamiento"
         );
         return Firebase\JWT\JWT::encode($payload,self::$claveSecreta);
     }
